@@ -78,6 +78,8 @@ unsigned long uartDetectBaudrate(uart_t *uart);
 
 bool uartRxActive(uart_t* uart);
 
+void uartSetIdleConf(uart_t* uart, uint32_t rx_idle_thrhd, uint32_t tx_idle_num, uint32_t tx_brk_num);
+
 #ifdef __cplusplus
 }
 #endif

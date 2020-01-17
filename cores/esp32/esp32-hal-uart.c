@@ -200,7 +200,6 @@ uart_t* uartBegin(uint8_t uart_nr, uint32_t baudrate, uint32_t config, int8_t rx
     uartFlush(uart);
     uartSetBaudRate(uart, baudrate);
     UART_MUTEX_LOCK();
-    uart->dev->idle_conf.tx_brk_num = 22; // This is right for DMX, 22bits, 2x slot times, 88us
     uart->dev->conf0.val = config;
     #define TWO_STOP_BITS_CONF 0x3
     #define ONE_STOP_BITS_CONF 0x1
@@ -589,4 +588,16 @@ uartDetectBaudrate(uart_t *uart)
  */
 bool uartRxActive(uart_t* uart) {
     return uart->dev->status.st_urx_out != 0;
+}
+
+void uartSetIdleConf(uart_t* uart, uint32_t rx_idle_thrhd, uint32_t tx_idle_num, uint32_t tx_brk_num) {
+    if(uart == NULL) {
+        return;
+    }
+    UART_MUTEX_LOCK();
+    uart->dev->idle_conf.rx_idle_thrhd = rx_idle_thrhd;
+    uart->dev->idle_conf.tx_idle_num = tx_idle_num;
+    uart->dev->idle_conf.tx_brk_num = tx_brk_num;
+    uart->dev->conf0.txd_brk = tx_brk_num?1:0;
+    UART_MUTEX_UNLOCK();
 }

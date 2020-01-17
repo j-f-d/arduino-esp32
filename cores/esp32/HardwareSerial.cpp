@@ -79,6 +79,11 @@ void HardwareSerial::updateBaudRate(unsigned long baud)
 	uartSetBaudRate(_uart, baud);
 }
 
+void HardwareSerial::setIdleConf(uint32_t rx_idle_thrhd, uint32_t tx_idle_num, uint32_t tx_brk_num)
+{
+    uartSetIdleConf(_uart, rx_idle_thrhd, tx_idle_num, tx_brk_num);
+}
+
 void HardwareSerial::end()
 {
     if(uartGetDebug() == _uart_nr) {
