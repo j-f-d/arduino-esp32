@@ -200,6 +200,7 @@ uart_t* uartBegin(uint8_t uart_nr, uint32_t baudrate, uint32_t config, int8_t rx
     uartFlush(uart);
     uartSetBaudRate(uart, baudrate);
     UART_MUTEX_LOCK();
+    uart->dev->idle_conf.tx_brk_num = 22; // This is right for DMX, 22bits, 2x slot times, 88us
     uart->dev->conf0.val = config;
     #define TWO_STOP_BITS_CONF 0x3
     #define ONE_STOP_BITS_CONF 0x1
